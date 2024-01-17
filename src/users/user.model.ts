@@ -1,6 +1,7 @@
 // user.model.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 @Schema()
 export class User {
@@ -15,12 +16,12 @@ export class User {
 
   @Prop()
   password: string;
-
-  @Prop()
-  confirmPassword: string;
-
-  // Outras propriedades do usuário
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
 export type UserDocument = User & Document;
+
+export async function setPassword(user: User, password: string): Promise<void> {
+  const saltRounds = 10;
+  user.password = await bcrypt.hash(password, saltRounds);
+}
