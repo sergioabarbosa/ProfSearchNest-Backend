@@ -4,12 +4,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { UserSchema } from './users/user.model'; // Importe apenas UserSchema, não UserModel
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://sergioalvesbarbosa:V1TVh4QBoQExDlx7@cluster0.r75d3cs.mongodb.net/?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRoot(process.env.DB),
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     // ... outros módulos V1TVh4QBoQExDlx7
     // zdYYkMt7YwPfod5V
