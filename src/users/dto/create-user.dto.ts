@@ -4,8 +4,10 @@ export class CreateUserDto {
   name: string;
   email: string;
   password: string;
-  created?: Date;
-  updated?: Date;
-  deleted?: Date;
   image?: string; // Suponha que a imagem seja uma URL ou um caminho para a imagem
+  timeStamps: {
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date;
+  };
 }

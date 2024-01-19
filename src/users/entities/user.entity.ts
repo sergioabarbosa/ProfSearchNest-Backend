@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type UserDocument = Document & User;
 
-@Schema()
+@Schema({ timestamps: true }) // Use timestamps: true para ativar as funcionalidades automáticas de timestamps
 export class User {
   @Prop()
   id?: string;
@@ -19,12 +19,6 @@ export class User {
 
   @Prop()
   password: string;
-
-  @Prop()
-  createdAt?: Date;
-
-  @Prop()
-  updatedAt?: Date;
 
   @Prop()
   deletedAt?: Date;
