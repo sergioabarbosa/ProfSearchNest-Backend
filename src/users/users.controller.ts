@@ -2,19 +2,24 @@ import {
   Controller,
   Get,
   Post,
-  Put,
-  Delete,
   Body,
+  Patch,
   Param,
-  NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
+  }
 
   @Get()
   findAll() {
@@ -23,41 +28,20 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    const user = this.usersService.findOne(id);
-
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
-
-    return user;
+    return this.usersService.findOne(id);
   }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
-  @Put(':id')
+  @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    try {
-      return this.usersService.update(id, updateUserDto);
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
+    const user: User = {
+      id, // Utilize o valor do parâmetro 'id' para a propriedade 'id' do User
+      ...(updateUserDto as User),
+    };
+    return this.usersService.update(id, user);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    try {
-      return this.usersService.remove(id);
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
+    return this.usersService.remove(id);
   }
 }

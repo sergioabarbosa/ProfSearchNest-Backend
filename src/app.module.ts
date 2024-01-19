@@ -1,29 +1,21 @@
-// app.module.ts
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
-import { UserSchema } from './users/user.model'; // Importe apenas UserSchema, não UserModel
-import { AuthService } from '../auth/auth.service'; // Crie este arquivo
-import { JwtStrategy } from '../auth/jwt.strategy'; // Crie este arquivo
-import * as dotenv from 'dotenv';
-import { JwtModule } from '@nestjs/jwt';
-dotenv.config();
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.DB),
-    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
-    JwtModule.register({
-      secret: process.env.SECRET, // Substitua com sua chave secreta
-      signOptions: { expiresIn: '3d' }, // Defina o tempo de expiração do token
-    }),
-
-    // ... outros módulos V1TVh4QBoQExDlx7
-    // zdYYkMt7YwPfod5V
+    UsersModule,
+    MongooseModule.forRoot(
+      'mongodb+srv://sergioalvesbarbosa:X2xhKi6J0BKfKvQ0@cluster0.r75d3cs.mongodb.net/?retryWrites=true&w=majority',
+    ), // X2xhKi6J0BKfKvQ0
+    AuthModule,
   ],
-  controllers: [UsersController],
-  providers: [UsersService, AuthService, JwtStrategy],
-  exports: [JwtModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
+
+//Senha banco: a2fKhfZPpf1wCPz7
