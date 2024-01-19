@@ -64,11 +64,25 @@ $ yarn run test:cov
 # Search Users
 $ get /users
 
+Get User By ID
+$ get /users/:id
+ex: http://localhost:3000/users/65aa204c81fb8d9032b33e1b
+
 # Create New User
 $ post /users
 
+# Update User
+$ patch /users/:id
+ex: http://localhost:3000/users/65aa316cf1452c754b9b7507
+
+# Delete User
+$ delete /users/:id
+ex: http://localhost:3000/users/65aa5f060eb9d65c391da141
+
 # Login User
 $ post /auth/login
+Body(raw):
+ex: {"email": "jin@mail.com", "password": "123456"}
 
 # Update User
 $ patc /users/:id
