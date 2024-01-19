@@ -4,18 +4,13 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
-  imports: [
-    UsersModule,
-    MongooseModule.forRoot(
-      'mongodb+srv://sergioalvesbarbosa:X2xhKi6J0BKfKvQ0@cluster0.r75d3cs.mongodb.net/?retryWrites=true&w=majority',
-    ), // X2xhKi6J0BKfKvQ0
-    AuthModule,
-  ],
+  imports: [UsersModule, MongooseModule.forRoot(process.env.DB), AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
-
-//Senha banco: a2fKhfZPpf1wCPz7
