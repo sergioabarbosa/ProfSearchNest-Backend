@@ -58,6 +58,23 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
+## Endpoints
+
+```localhost:3000
+# Search Users
+$ get /users
+
+# Create New User
+$ post /users
+
+# Login User
+$ post /auth/login
+
+# Update User
+$ patc /users/:id
+$ ex: http://localhost:3000/users/65aa316cf1452c754b9b7507
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).

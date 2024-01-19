@@ -37,7 +37,9 @@ export class UsersController {
       id, // Utilize o valor do parâmetro 'id' para a propriedade 'id' do User
       ...(updateUserDto as User),
     };
-    return this.usersService.update(id, user);
+    return {
+      'Usuário atualizado com sucesso!': user,
+    };
   }
 
   @Delete(':id')
