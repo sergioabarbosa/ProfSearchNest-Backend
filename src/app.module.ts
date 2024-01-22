@@ -5,11 +5,17 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
+import { AnunciosModule } from './ads/ads.module';
 
 dotenv.config();
 
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot(process.env.DB), AuthModule],
+  imports: [
+    UsersModule,
+    MongooseModule.forRoot(process.env.DB),
+    AuthModule,
+    AnunciosModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
