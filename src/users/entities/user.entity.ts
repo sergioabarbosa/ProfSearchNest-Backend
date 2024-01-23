@@ -1,8 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Anuncio } from '../../ads/ads.model'; // Certifique-se de importar corretamente o modelo de Anuncio
+import { Anuncio } from '../../ads/ads.model';
 
 export type UserDocument = Document & User;
+
+@Schema({ timestamps: true })
+export class Address {
+  @Prop()
+  street: string;
+
+  @Prop()
+  city: string;
+
+  @Prop()
+  state: string;
+
+  @Prop()
+  postalCode: string;
+}
 
 @Schema({ timestamps: true })
 export class User {
@@ -14,6 +29,21 @@ export class User {
 
   @Prop()
   username: string;
+
+  @Prop()
+  cpf: string;
+
+  @Prop()
+  userType: string;
+
+  @Prop()
+  userPlan: string;
+
+  @Prop({ type: Address })
+  address: Address;
+
+  @Prop()
+  telephone: string;
 
   @Prop()
   email: string;

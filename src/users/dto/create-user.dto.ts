@@ -2,12 +2,20 @@ export class CreateUserDto {
   id?: string;
   username: string;
   name: string;
+  userType: string;
+  userPlan: string;
+  telephone: string;
+  cpf: string;
   email: string;
   password: string;
-  image?: string; // Suponha que a imagem seja uma URL ou um caminho para a imagem
-  timeStamps: {
-    createdAt: Date;
-    updatedAt: Date;
-    deletedAt: Date;
+  image?: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
   };
+  deletedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
