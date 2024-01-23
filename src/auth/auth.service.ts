@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -9,19 +10,14 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(username, pass) {
-    console.log('Credenciais fornecidas:', { username, pass });
+  async signIn(username, password) {
+    console.log('Credenciais fornecidas:', { username, password });
     const user = await this.usersService.findOne(username);
 
-    if (!user || user.password !== pass) {
+    if (!user || !(await this.comparePasswords(password, user.password))) {
       // Se o usuário não existe ou a senha está incorreta, lance uma exceção Unauthorized
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Credenciais inválidas');
     }
-
-    // Certifique-se de que 'user' é um objeto válido com a propriedade 'id'
-    // if (!user.id) {
-    //   throw new Error('Usuário não tem uma propriedade "id" válida.');
-    // }
 
     const payload = { sub: user.id, username: user.username };
 
@@ -29,5 +25,12 @@ export class AuthService {
       'Usuário logado com sucesso!': user,
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  private async comparePasswords(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return bcrypt.compare(plainTextPassword, hashedPassword);
   }
 }
