@@ -1,7 +1,6 @@
-// anuncio.model.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { User } from '../users/entities/user.entity'; // Importe o modelo de usuário
+import { User } from '../users/entities/user.entity';
 
 export type AnuncioDocument = Document & Anuncio;
 
@@ -16,8 +15,11 @@ export class Anuncio {
   @Prop()
   image: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' }) // Adicione a referência ao modelo de usuário
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
   user: User;
+
+  @Prop()
+  category: string;
 
   // Outros campos necessários para o anúncio
 
