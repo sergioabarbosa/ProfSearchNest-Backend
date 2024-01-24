@@ -34,6 +34,23 @@ export class AnunciosService {
     return updatedAnuncio;
   }
 
+  async searchAnuncios(query: string): Promise<Anuncio[]> {
+    try {
+      const anuncios = await this.anuncioModel
+        .find({
+          $or: [
+            { title: { $regex: query, $options: 'i' } },
+            { description: { $regex: query, $options: 'i' } },
+          ],
+        })
+        .exec();
+
+      return anuncios;
+    } catch (error) {
+      throw new Error(`Erro ao buscar anúncios: ${error.message}`);
+    }
+  }
+
   async remove(id: string): Promise<void> {
     await this.anuncioModel.findByIdAndDelete(id).exec();
   }

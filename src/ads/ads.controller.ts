@@ -8,6 +8,7 @@ import {
   Param,
   Delete,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { AnunciosService } from './ads.service';
 import { CreateAnuncioDto, UpdateAnuncioDto } from './ads.dto';
@@ -29,6 +30,29 @@ export class AnunciosController {
     } catch (error) {
       return {
         message: 'Erro ao criar o anúncio.',
+        error: error.message,
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+      };
+    }
+  }
+
+  @Get('/search')
+  async searchAnuncios(@Query('q') query: string) {
+    try {
+      // Realize a lógica de busca com base no parâmetro 'query'
+      const anuncios = await this.anunciosService.searchAnuncios(query);
+
+      // Mapeie os resultados para remover explicitamente o campo _id
+      const anunciosWithoutId = anuncios.map(({ ...rest }) => rest);
+
+      return {
+        message: 'Anúncios recuperados com sucesso!',
+        data: anunciosWithoutId,
+        status: HttpStatus.OK,
+      };
+    } catch (error) {
+      return {
+        message: 'Erro ao recuperar os anúncios.',
         error: error.message,
         status: HttpStatus.INTERNAL_SERVER_ERROR,
       };
