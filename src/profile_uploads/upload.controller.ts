@@ -37,7 +37,10 @@ export class UploadController {
         throw new Error('Arquivo não enviado na requisição');
       }
 
-      // Restante do código...
+      // Aqui você pode adicionar lógica adicional, como salvar o caminho da imagem no banco de dados, se necessário.
+
+      // Retornar uma mensagem de sucesso após o upload da imagem
+      return { message: 'Imagem enviada com sucesso' };
     } catch (error) {
       console.error('Erro ao fazer upload da imagem:', error?.message || error);
       if (error) {
