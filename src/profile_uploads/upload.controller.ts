@@ -1,4 +1,3 @@
-// upload.controller.ts
 import {
   Controller,
   Post,
@@ -7,7 +6,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import * as crypto from 'crypto';
+import * as mime from 'mime-types';
 
 @Controller('upload')
 export class UploadController {
@@ -16,12 +16,16 @@ export class UploadController {
     FileInterceptor('image', {
       storage: diskStorage({
         destination: './uploads',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
+        filename: function (req, file, cb) {
+          crypto.pseudoRandomBytes(16, function (err, raw) {
+            cb(
+              null,
+              raw.toString('hex') +
+                Date.now() +
+                '.' +
+                mime.extension(file.mimetype),
+            );
+          });
         },
       }),
       limits: { fieldSize: 25 * 1024 * 1024 },
