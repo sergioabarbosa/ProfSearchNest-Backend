@@ -45,4 +45,24 @@ export class UsersService {
   async remove(id: string): Promise<void> {
     await this.userModel.findByIdAndDelete(id).exec();
   }
+
+  async updateUserImage(
+    userId: string,
+    imagePath: string,
+  ): Promise<User | null> {
+    try {
+      const updatedUser = await this.userModel
+        .findByIdAndUpdate(
+          userId,
+          { imagePath }, // Atualize o campo da imagem do usuário
+          { new: true }, // Retorna o novo documento atualizado
+        )
+        .exec();
+
+      return updatedUser;
+    } catch (error) {
+      console.error('Erro ao atualizar a imagem do usuário:', error.message);
+      return null;
+    }
+  }
 }
