@@ -10,7 +10,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(username, password) {
+  async signIn(username, password, req) {
+    // Adicione 'req' como parâmetro
     console.log('Credenciais fornecidas:', { username, password });
     const user = await this.usersService.findOne(username);
 
@@ -18,6 +19,9 @@ export class AuthService {
       // Se o usuário não existe ou a senha está incorreta, lance uma exceção Unauthorized
       throw new UnauthorizedException('Credenciais inválidas');
     }
+
+    // Atribuir o usuário autenticado à requisição
+    req.user = user;
 
     const payload = { sub: user.id, username: user.username };
 
